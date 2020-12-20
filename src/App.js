@@ -1,10 +1,8 @@
-import {useState, useEffect} from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Classifications from './containers/Classifications';
-import Landing from './containers/Landing'
+import LandingPage from './containers/LandingPage'
+import SearchPage from './containers/SearchPage'
 import Navigation from './components/Navigation';
-
-import trefle from './api/trefle'
 
 import { Container,CssBaseline } from '@material-ui/core';
 
@@ -17,9 +15,11 @@ const useStyles = makeStyles({
     padding: '10px',
     height: '100%',
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
+    alignItems: 'flexStart',
+    justifyContent: 'flexStart',
+    flexDirection: 'column',
+    borderLeft: '1px solid red',
+    borderRight: '1px solid red'
   },
   app: {
     backgroundImage: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)',
@@ -34,7 +34,14 @@ function App() {
       <CssBaseline />
       <Navigation />
       <Container maxWidth="lg" className={classes.container}>
-        <Landing />
+        <Router>
+          <Route exact path='/'>
+            <LandingPage/>
+          </Route>
+          <Route exact path='/search'>
+            <SearchPage/>
+          </Route>
+        </Router>
       </Container>
     </div>
   );
