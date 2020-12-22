@@ -9,7 +9,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 const useStyles = makeStyles((theme) => ({
     filterButton: {
         width: '100%',
-        height: '100%'
+        height: '100%',
+        marginLeft: '10px'
     }
 }));
 

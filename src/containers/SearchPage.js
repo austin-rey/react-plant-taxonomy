@@ -1,4 +1,6 @@
-import React, {useState, useEffect, Suspense} from 'react'
+import React, {useState, useEffect,useRef } from 'react'
+
+import {useFetch} from '../hooks/useFetch'
 
 import PropTypes from 'prop-types'
 
@@ -7,6 +9,8 @@ import trefle from '../api/trefle'
 import {Button} from '@material-ui/core/';
 
 import { makeStyles } from '@material-ui/core/styles';
+
+import {Link} from "react-router-dom";
 
 import Search from '../components/Search';
 import ListCard from '../components/ListCard';
@@ -19,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        justifyContent: 'flexStart'
     },
     margin: {
         margin: theme.spacing(1),
@@ -29,60 +32,56 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         marginTop: '10px'
     },
     buttonContainer: {
         margin: '30px 0px'
     },
     buttonCat: {
-        margin: '0px 10px',
+        margin: '10px',
         textTransform: 'lowercase',
         fontWeight: 'bold',
         padding: '30px 0px',
-        minWidth: '230px'
+        minWidth: '220px'
     },
     buttonLearnMore: {
         width: '100%',
         borderTopLeftRadius: 0,
-        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
         textTransform: 'lowercase'
     },
     searchContainer: {
         display: 'flex',
         flexDirection: 'row',
+        width: 'calc(100% - 30px)',
+        margin: '30px 10px',
+        alignItems: 'stretch'
+    },
+    section: {
         width: '100%'
+    },
+    link: {
+        textDecoration: 'none',
+        color: '#fff',
+        width: '100%'
+
     }
 }));
 
 const SearchPage = () => {
     const classes = useStyles();
+    const isComponentMounted = useRef(true);
 
     const [searchQuery, setSearchQuery] = useState('');
     const [requestEndpoint, setRequestEndpoint] = useState('/api/v1/plants/')
     const [requestParams, setRequestParams] = useState([])
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState({});
-    const [plantData, setPlantData] = useState([]);
 
-    useEffect(() => {
-        let ignore = false;
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                setError({});
-                const Plants = await trefle.get(requestEndpoint)
-                if(!ignore) setPlantData(Plants.data.data);
-            } catch (error) {
-                setError(error);
-            }
-           setLoading(false);
-        }
-        fetchData();
-        return(()=>{ignore=true;});
-    }, [requestEndpoint])
-    
-    console.log(plantData);
+    const { data, loading, error } = useFetch(
+        requestEndpoint,
+        isComponentMounted,
+        []
+      );
 
     const searchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -94,15 +93,15 @@ const SearchPage = () => {
     }
 
     function PlantResults() {
-        return plantData.map((plant,i) => (
+        return data.map((plant,i) => (
             <ListCard 
+            key={i}
             title={plant.common_name} 
             subtext={plant.scientific_name} 
             imagePath={plant.image_url} 
             button={
-                <Button variant="contained" size="large" color="primary" className={classes.buttonLearnMore}>
-                    View
-                </Button> 
+                <Link className={classes.link} to={`/plant/${plant.id}`}><Button variant="contained" size="large" color="primary" className={classes.buttonLearnMore}>
+                View</Button> </Link>
             }
             />
         ))
@@ -110,57 +109,55 @@ const SearchPage = () => {
 
     return (
         <div className={classes.root}>
+
             <PageHeader 
                 heading='Plants and Species'
                 subtext='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat vero, dicta labore sit ipsum corrupti natus! Quidem sint perferendis, beatae sit dicta, quasi non iure placeat asperiores, alias vel nesciunt. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat vero, dicta labore sit ipsum corrupti natus! Quidem sint perferendis, beatae sit dicta, quasi non iure placeat asperiores, alias vel nesciunt.'
             />
-            <SectionHeader  
-                heading='Popular Categories'
-                subtext=''
-            />
-            <div className={classes.buttonContainer}>
-                <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>
-                    recently discovered
-                </Button> 
-                <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>
-                    oldest discoveries
-                </Button> 
-                <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>
-                    edible
-                </Button> 
-                <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>
-                    vegetables
-                </Button> 
-                <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>
-                    plants by rank
-                </Button> 
-            </div>
- 
-            <SectionHeader  
-                heading='Search by Name'
-                subtext=''
-            />
-      
-            <div className={classes.searchContainer}>
-                <Search 
-                    id='search-bar'
-                    label='Search'
-                    placeholder='Enter a species or plant'
-                    disabled={false}
-                    handleChange={searchChange}
-                />
-                <FilterMenu/>
-            </div>
-                
 
-            {(loading)
-            ? <h2>Loading</h2>
-            :(
-                <div className={classes.cardContainer}>
-                <PlantResults />
+            <section id="section-popular-categories" className={classes.section} >
+                <SectionHeader  
+                    heading='Popular Categories'
+                    subtext='Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat vero, dicta labore sit ipsum corrupti natus! Quidem sint perferendis, beatae sit dicta, quasi non iure placeat asperiores, alias vel nesciunt. '
+                />
+                <div className={classes.buttonContainer}>
+                   
+                    <Link className={classes.link} to="/category/recent-discoveries"> <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>recently discoveries</Button></Link>
+                    <Link className={classes.link} to="/category/oldest-discoveries"> <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>oldest discoveries</Button></Link>
+                    <Link className={classes.link} to="/category/edible"> <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>edible</Button></Link>
+                    <Link className={classes.link} to="/category/vegetables"> <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>vegetables</Button></Link>
+                    <Link className={classes.link} to="/category/plants-by-rank"> <Button variant="contained" size="large" color="primary" className={classes.buttonCat}>plants by rank</Button></Link>
                 </div>
-            )
-            } 
+            </section>
+            
+            <section id="section-search" className={classes.section} >
+                <SectionHeader  
+                    heading='Search by Name'
+                    subtext=''
+                />
+                <div className={classes.searchContainer}>
+                    <Search 
+                        id='search-bar'
+                        label='Search'
+                        placeholder='Enter a species or plant'
+                        disabled={false}
+                        handleChange={searchChange}
+                    />
+                    <FilterMenu/>
+                </div>
+            </section>
+                
+            <section id="section-search-results" className={classes.section} >
+                {(loading)
+                ? <h2>Loading</h2>
+                :(
+                    <div className={classes.cardContainer}>
+                        <PlantResults />
+                    </div>
+                )
+                } 
+            </section>
+            
         </div>
     )
 }

@@ -1,25 +1,25 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import LandingPage from './containers/LandingPage'
 import SearchPage from './containers/SearchPage'
-import Navigation from './components/Navigation';
+import PlantPage from './containers/PlantPage'
+import CategoryPage from './containers/CategoryPage'
 
-import { Container,CssBaseline } from '@material-ui/core';
+import Navigation from './components/Navigation'
 
-import { makeStyles } from '@material-ui/core/styles';
+import { Container,CssBaseline } from '@material-ui/core'
 
-import './App.css';
+import { makeStyles } from '@material-ui/core/styles'
+
+import './App.css'
 
 const useStyles = makeStyles({
   container: {
     padding: '10px',
     height: '100%',
     display: 'flex',
-    alignItems: 'flexStart',
-    justifyContent: 'flexStart',
     flexDirection: 'column',
-    borderLeft: '1px solid red',
-    borderRight: '1px solid red'
+    backgroundColor: '#efefef',
   },
   app: {
     backgroundImage: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)',
@@ -40,6 +40,12 @@ function App() {
           </Route>
           <Route exact path='/search'>
             <SearchPage/>
+          </Route>
+          <Route exact path='/plant/:id'>
+            <PlantPage/>
+          </Route>
+          <Route exact path='/category/:category'>
+            <CategoryPage/>
           </Route>
         </Router>
       </Container>

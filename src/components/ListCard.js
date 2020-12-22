@@ -8,7 +8,8 @@ import PropTypes from 'prop-types'
 
 const useStyles = makeStyles({
     root: {
-      maxWidth: 300,
+        minWidth: '305px',
+    width: 'calc(25% - 10px)',
       margin: '5px'
     },
     content: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
 const ListCard = ({title,subtext,imagePath,button}) => {
     const classes = useStyles();
     return (
-        <div>
+        <>
             <Card className={classes.root}>
                 <CardMedia
                 component="img"
@@ -50,7 +51,7 @@ const ListCard = ({title,subtext,imagePath,button}) => {
                    {button}
                 </CardActions>
             </Card>
-        </div>
+        </>
     )
 }
 
