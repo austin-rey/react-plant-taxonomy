@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 
 import PageHeader from '../components/PageHeader';
 import SectionHeader from '../components/SectionHeader';
+import ImageGallery from '../components/ImageGallery';
 
 const PlantPage = () => {
     let { id } = useParams();
@@ -20,6 +21,7 @@ const PlantPage = () => {
         []
     );
 
+    console.log(plantData);
     return ((loading) 
             ? <h1>Loading</h1>
             : <div>
@@ -42,6 +44,7 @@ const PlantPage = () => {
                     heading='Photo Gallery'
                     subtext=''
                 />
+                <ImageGallery imageArray={plantData.images}/>
                 <SectionHeader  
                     heading='Distribution'
                     subtext=''
