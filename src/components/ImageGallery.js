@@ -54,9 +54,7 @@ const useStyles = makeStyles((theme) => ({
   
 const ImageGallery = ({imageArray}) => {
     const classes = useStyles();
-
-    console.log(imageArray);
-
+    
     const [value, setValue] = React.useState(0);
   
     const handleChange = (event, newValue) => {

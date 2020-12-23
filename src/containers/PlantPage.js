@@ -9,8 +9,18 @@ import PropTypes from 'prop-types'
 import PageHeader from '../components/PageHeader';
 import SectionHeader from '../components/SectionHeader';
 import ImageGallery from '../components/ImageGallery';
+import Map from '../components/Map'
 
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    section: {
+        width: '100%'
+    },
+}));
 const PlantPage = () => {
+    const classes = useStyles();
+
     let { id } = useParams();
 
     const isComponentMounted = useRef(true);
@@ -21,34 +31,69 @@ const PlantPage = () => {
         []
     );
 
-    console.log(plantData);
     return ((loading) 
             ? <h1>Loading</h1>
             : <div>
+
                 <PageHeader 
                     heading={plantData.common_name}
                     subtext={plantData.scientific_name}
                 />
-                <SectionHeader  
-                    heading='Plant Metadata'
-                    subtext=''
-                />
-                <p><b>Author: </b>{plantData.author}</p>
-                <p><b>Family: </b>{plantData.family_common_name}({plantData.family})</p>
-                <p><b>Genus: </b>{plantData.genus}</p>
-                <p><b>Status: </b>{plantData.status}</p>
-                <p><b>Discovered: </b>{plantData.year}</p>
 
+                 <section id="section-plant-metadata" className={classes.section} >
+                    <SectionHeader  
+                        heading='Plant Metadata'
+                        subtext=''
+                    />
+                    <p><b>Author: </b>{plantData.author}</p>
+                    <p><b>Family: </b>{plantData.family_common_name}({plantData.family})</p>
+                    <p><b>Genus: </b>{plantData.genus}</p>
+                    <p><b>Status: </b>{plantData.status}</p>
+                    <p><b>Discovered: </b>{plantData.year}</p>
+                 </section>
+               
+                <section id="section-photo-gallery" className={classes.section} >
+                    <SectionHeader  
+                        heading='Photo Gallery'
+                        subtext=''
+                    />
+                    <ImageGallery imageArray={plantData.images}/>
+                </section>
 
-                <SectionHeader  
-                    heading='Photo Gallery'
-                    subtext=''
-                />
-                <ImageGallery imageArray={plantData.images}/>
-                <SectionHeader  
-                    heading='Distribution'
-                    subtext=''
-                />
+                <section id="section-plant-distribution" className={classes.section} >
+                    <SectionHeader  
+                        heading='Distribution'
+                        subtext=''
+                    />
+                    <Map names={plantData.distribution}/>
+                    <div><h2>Native</h2>
+                        {plantData.distributions.native?.map((item) => (
+                            <p>{item.name} - {item.species_count}</p>
+                        ))}
+                    </div>
+                    <div><h2>Introduced</h2>
+                        {plantData.distributions.introduced?.map((item) => (
+                            <p>{item.name} - {item.species_count}</p>
+                        ))}
+                    </div>
+                    <div><h2>Doubtful</h2>
+                        {plantData.distributions.doubtful?.map((item) => (
+                            <p>{item.name} - {item.species_count}</p>
+                        ))}
+                    </div>
+                    <div><h2>Absent</h2>
+                        {plantData.distributions.absent?.map((item) => (
+                            <p>{item.name} - {item.species_count}</p>
+                        ))}
+                    </div>
+                    <div><h2>Extinct</h2>
+                        {plantData.distributions.extinct?.map((item) => (
+                            <p>{item.name} - {item.species_count}</p>
+                        ))}
+                    </div>
+
+                </section>
+
                 <SectionHeader  
                     heading='Growing Information'
                     subtext=''
