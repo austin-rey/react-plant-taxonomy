@@ -1,20 +1,20 @@
 import React, {useEffect,useState,useRef} from 'react'
 
-import {useParams} from "react-router-dom";
+import {useParams} from "react-router-dom"
 
 import {useFetch} from '../hooks/useFetch'
 
 import PropTypes from 'prop-types'
 
-import PageHeader from '../components/PageHeader';
-import SectionHeader from '../components/SectionHeader';
-import ImageGallery from '../components/ImageGallery';
+import PageHeader from '../components/PageHeader'
+import SectionHeader from '../components/SectionHeader'
+import ImageGallery from '../components/ImageGallery'
 import Map from '../components/Map'
+import PlantTable from '../components/Table'
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -158,10 +158,7 @@ const PlantPage = () => {
                     heading='Sources'
                     subtext=''
                 />
-                <SectionHeader  
-                    heading='Related'
-                    subtext=''
-                />
+                <PlantTable headers={['Name','Last Updated','URL','Citation']} rows={plantData.sources} />
             </div>
     )
 }
