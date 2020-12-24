@@ -11,12 +11,26 @@ import SectionHeader from '../components/SectionHeader';
 import ImageGallery from '../components/ImageGallery';
 import Map from '../components/Map'
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     section: {
         width: '100%'
     },
+    listContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around'
+    },
+    distributionList: {
+        textAlign: 'left'
+    }
 }));
 const PlantPage = () => {
     const classes = useStyles();
@@ -65,33 +79,75 @@ const PlantPage = () => {
                         heading='Distribution'
                         subtext=''
                     />
-                    <Map names={plantData.distribution}/>
-                    <div><h2>Native</h2>
-                        {plantData.distributions.native?.map((item) => (
-                            <p>{item.name} - {item.species_count}</p>
-                        ))}
-                    </div>
-                    <div><h2>Introduced</h2>
-                        {plantData.distributions.introduced?.map((item) => (
-                            <p>{item.name} - {item.species_count}</p>
-                        ))}
-                    </div>
-                    <div><h2>Doubtful</h2>
-                        {plantData.distributions.doubtful?.map((item) => (
-                            <p>{item.name} - {item.species_count}</p>
-                        ))}
-                    </div>
-                    <div><h2>Absent</h2>
-                        {plantData.distributions.absent?.map((item) => (
-                            <p>{item.name} - {item.species_count}</p>
-                        ))}
-                    </div>
-                    <div><h2>Extinct</h2>
-                        {plantData.distributions.extinct?.map((item) => (
-                            <p>{item.name} - {item.species_count}</p>
-                        ))}
-                    </div>
 
+                    <Map names={plantData.distribution}/>
+                    <div className={classes.listContainer}>
+                        <div className={classes.distributionList}>
+                            <h2>Native</h2>
+                            <List className={classes.root}>
+                                {plantData.distributions.native?.map((item,i ) => (
+                                    <>
+                                        <ListItem alignItems="flex-start" key={i}>
+                                            <ListItemText primary={item.name} secondary={item.species_count}/>
+                                        </ListItem>
+                                
+                                    </>
+                                    ))}
+                            </List>
+                        </div>
+                        <div className={classes.distributionList}>
+                            <h2>Introduced</h2>
+                            <List className={classes.root}>
+                                {plantData.distributions.introduced?.map((item,i ) => (
+                                    <>
+                                        <ListItem alignItems="flex-start" key={i}>
+                                            <ListItemText primary={item.name} secondary={item.species_count}/>
+                                        </ListItem>
+                                
+                                    </>
+                                    ))}
+                            </List>
+                        </div>
+                        <div className={classes.distributionList}>
+                            <h2>Doubtful</h2>
+                            <List className={classes.root}>
+                                {plantData.distributions.doubtful?.map((item,i ) => (
+                                    <>
+                                        <ListItem alignItems="flex-start" key={i}>
+                                            <ListItemText primary={item.name} secondary={item.species_count}/>
+                                        </ListItem>
+                                
+                                    </>
+                                    ))}
+                            </List>
+                        </div>
+                        <div className={classes.distributionList}>
+                            <h2>Absent</h2>
+                            <List className={classes.root}>
+                                {plantData.distributions.absent?.map((item,i ) => (
+                                    <>
+                                        <ListItem alignItems="flex-start" key={i}>
+                                            <ListItemText primary={item.name} secondary={item.species_count}/>
+                                        </ListItem>
+                                
+                                    </>
+                                    ))}
+                            </List>
+                        </div>
+                        <div className={classes.distributionList}>
+                            <h2>Extinct</h2>
+                            <List className={classes.root}>
+                                {plantData.distributions.extinct?.map((item,i ) => (
+                                    <>
+                                        <ListItem alignItems="flex-start" key={i}>
+                                            <ListItemText primary={item.name} secondary={item.species_count}/>
+                                        </ListItem>
+                                
+                                    </>
+                                    ))}
+                            </List>
+                        </div>
+                    </div>
                 </section>
 
                 <SectionHeader  
