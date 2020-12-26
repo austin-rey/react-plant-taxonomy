@@ -74,7 +74,7 @@ const SearchPage = () => {
     const isComponentMounted = useRef(true);
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [requestEndpoint, setRequestEndpoint] = useState('/api/v1/plants/?page=9')
+    const [requestEndpoint, setRequestEndpoint] = useState('/api/v1/species/?page=278')
     const [requestParams, setRequestParams] = useState([])
 
     const { data, loading, error } = useFetch(

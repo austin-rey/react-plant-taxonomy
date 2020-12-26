@@ -1,18 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ComposableMap, Geographies, Geography, Marker, Markers, ZoomableGlobe } from "react-simple-maps";
+
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+
+import {Grid,Paper} from '@material-ui/core';
+
 import { makeStyles } from '@material-ui/core/styles';
-import CountryCodes from '../json/CountryCodes.json'
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         height: 'auto'
     },
-    mapWrapper : {
-        height: 'auto',
-        width: "100%",
-    }
 }));
 
 const geoUrl =
@@ -24,15 +23,15 @@ const Map = ({names}) => {
 
     const displayColorForGeography = geography => {
         if(names.native?.includes(geography.properties.name)) {
-            return "green"
+            return "#ED6A5A"
         }else if(names.introduced?.includes(geography.properties.name)) {
-            return "blue"
+            return "#5D576B"
         }else if(names.doubtful?.includes(geography.properties.name)) {
-            return "orange"
+            return "#e6a969"
         }else if(names.absent?.includes(geography.properties.name)) {
-            return "yellow"
+            return "#9BC1BC"
         }else if(names.extinct?.includes(geography.properties.name)) {
-            return "red"
+            return "#8AAE6F "
         }
         return "#DDD";
     }
@@ -40,7 +39,9 @@ const Map = ({names}) => {
     return (
       <div className={classes.root}>
         <ComposableMap
-            className={classes.mapWrapper}
+            projectionConfig={{scale: 175, center: [18,0]}}
+            width={800}
+            height={600}
         >
            <Geographies geography={geoUrl}>
             {({ geographies, projection }) =>
@@ -57,18 +58,27 @@ const Map = ({names}) => {
                             fill: displayColorForGeography(geo),
                             outline: "none"
                         },
+                        hover: {
+                            fill: displayColorForGeography(geo),
+                            outline: "none"
+                        },
+                        pressed: {
+                            fill: displayColorForGeography(geo),
+                            outline: "none"
+                        },
                         }}
                     />
                 ))
             }
             </Geographies>
         </ComposableMap>
+     
       </div>
     )
 }
 
 Map.propTypes = {
-
+    names: PropTypes.array
 }
 
 export default Map

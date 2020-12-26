@@ -4,12 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Grid} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-      },
-      imageContainer: {
-          maxWidth: '400px'
-      },
       image :{
           width: '100%',
           height: 'auto'
@@ -21,16 +15,15 @@ const ImageGrid = ({images}) => {
 
   return (
     <div className={classes.root}>
-        <Grid container className={classes.root} spacing={2}>
-            <Grid item xs={12}>
-                <Grid container justify="flex-start" direction="row" wrap="wrap" spacing={2} lg={9}>
-                    {images.map((image, i) => (
-                        <Grid key={i} item className={classes.imageContainer}>
-                            <img className={classes.image} src={image.image_url} alt={image.copyright} />
-                        </Grid>
-                    ))}
+      <Grid container justify="flex-start" direction="row" wrap="wrap" spacing={1}>
+            {images.map((image, i) => (
+                <Grid key={i} item className={classes.imageContainer} xs={12} sm={6} lg={4}>
+                    <a href={image.image_url} target="_blank">
+                    <img className={classes.image} src={image.image_url} alt={image.copyright} />
+                    </a>
+              
                 </Grid>
-            </Grid>
+            ))}
         </Grid>
     </div>
   );

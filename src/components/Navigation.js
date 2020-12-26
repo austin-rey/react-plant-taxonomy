@@ -21,7 +21,7 @@ const Navigation = () => {
 
     return (
         <div className={classes.header}>
-            <Container maxWidth="lg" className={classes.container}>
+            <Container maxWidth="xl" className={classes.container}>
                 <span><strong>[APP NAME]</strong></span>
                 <span>Austin Reynaud</span>
             </Container>

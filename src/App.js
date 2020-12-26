@@ -33,7 +33,7 @@ function App() {
     <div className="App">
       <CssBaseline />
       <Navigation />
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="xl" className={classes.container}>
         <Router>
           <Route exact path='/'>
             <LandingPage/>

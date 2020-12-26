@@ -24,17 +24,18 @@ const PlantTable = ({headers,rows}) => {
                 <TableHead>
                     <TableRow>
                         {headers.map((header) => (
-                            <TableCell>{header}</TableCell>
+                            <TableCell><h4>{header}</h4></TableCell>
                         ))}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                {rows.map((row) => (
-                    <TableRow key={row.name}>
-                        <TableCell align="left">{row.name}</TableCell>
-                        <TableCell align="left">{row.last_update}</TableCell>
-                        <TableCell align="left"><a href={row.url}>View Website</a></TableCell>
-                        <TableCell align="left">{row.citation}</TableCell>
+                {rows.map((row,i) => (
+                    <TableRow key={i}>
+                        <TableCell align="left">{(row.name)?row.name:<p>No name found.</p>}</TableCell>
+                        <TableCell align="left">{(row.last_update)?row.name:<p>No updates found.</p>}</TableCell>
+                        <TableCell align="left">{(row.url)?<a href={row.url} target="_blank">View Website</a>:<p>No website found.</p>}
+                        </TableCell>
+                        <TableCell align="left">{(row.citation)?row.citation:<p>No citation found.</p>}</TableCell>
                     </TableRow>
                 ))}
                 </TableBody>
