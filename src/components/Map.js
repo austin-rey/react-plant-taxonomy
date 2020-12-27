@@ -10,7 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        height: 'auto'
+        height: 'auto',
+        backgroundColor: '#F9F7DB',
+        borderRadius: '5px'
     },
 }));
 
@@ -27,13 +29,13 @@ const Map = ({names}) => {
         }else if(names.introduced?.includes(geography.properties.name)) {
             return "#5D576B"
         }else if(names.doubtful?.includes(geography.properties.name)) {
-            return "#e6a969"
+            return "#F58B51"
         }else if(names.absent?.includes(geography.properties.name)) {
             return "#9BC1BC"
         }else if(names.extinct?.includes(geography.properties.name)) {
             return "#8AAE6F "
         }
-        return "#DDD";
+        return "#E3BF95";
     }
 
     return (
@@ -51,8 +53,8 @@ const Map = ({names}) => {
                     key={i}
                     geography={geo}
                     projection={projection}
-                    fill="#DDD"
-                    stroke="#FFF"
+                    fill="#E3BF95"
+                    stroke="#F9F7DB"
                     style={{
                         default: {
                             fill: displayColorForGeography(geo),

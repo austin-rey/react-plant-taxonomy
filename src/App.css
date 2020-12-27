@@ -1,3 +1,27 @@
+/* To be replaced with custom material ui theme */
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 22px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+p {
+  margin: 0.5em 0em;
+}
+
+span {
+  font-size: 10px;
+}
 .App {
   text-align: center;
 }

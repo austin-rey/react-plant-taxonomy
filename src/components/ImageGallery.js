@@ -2,14 +2,13 @@ import React from 'react'
 
 import PropTypes from 'prop-types';
 
-import SwipeableViews from 'react-swipeable-views';
-
 import { makeStyles, withStyles  } from '@material-ui/core/styles';
 
 import {AppBar,Tabs,Tab,Typography,Box} from '@material-ui/core';
 
 import ImageGrid from './ImageGrid';
 
+// Panel in which images are placed.
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -83,14 +82,23 @@ const ImageGallery = ({imageArray}) => {
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
-  
-    const handleChangeIndex = (index) => {
-      setValue(index);
-    };
 
+    let imageCategories = Object.entries(imageArray);
+
+    // Not every plant will have images for each category so only create tabs for images found.
+    let tabs = imageCategories.map((cat,i) => {
+      if(cat[0] != '') {
+        return <StyledTab key={i} label={`${cat[0]}`} {...a11yProps(i)} />
+      }
+    });
+    
+    // Same as tabs.
+    let tabPanels = imageCategories.map((cat,i) => {
+      return <TabPanel key={i} value={value} index={i} className={classes.tabPanel}><ImageGrid images={cat[1]}/></TabPanel>
+    });
+    
     return (
       <div className={classes.root}>
-
         <AppBar className={classes.tabContainer} position="static" color="transparent">
           <StyledTabs
             value={value}
@@ -101,33 +109,10 @@ const ImageGallery = ({imageArray}) => {
             scrollButtons="auto"
             aria-label="Tabs for image gallery"
           >
-            <StyledTab label={`Bark (${imageArray.bark.length})`} {...a11yProps(0)} />
-            <StyledTab label={`Flowers (${imageArray.flower.length})`} {...a11yProps(1)} />
-            <StyledTab label={`Fruit (${imageArray.fruit.length})`} {...a11yProps(2)} />
-            <StyledTab label={`Habit (${imageArray.habit.length})`} {...a11yProps(3)} />
-            <StyledTab label={`Leafs (${imageArray.leaf.length})`} {...a11yProps(4)} />
-            <StyledTab label={`Other (${imageArray.other.length})`} {...a11yProps(5)} />
+            {tabs}
           </StyledTabs >
         </AppBar>
-
-        <TabPanel value={value} index={0} className={classes.tabPanel}>
-          {(imageArray.bark.length != 0)?<ImageGrid images={imageArray.bark}/>:<p>No pictures found.</p>}
-        </TabPanel>
-        <TabPanel value={value} index={1} className={classes.tabPanel}> 
-          {(imageArray.flower.length != 0)?<ImageGrid images={imageArray.flower}/>:<p>No pictures found.</p>}
-        </TabPanel>
-        <TabPanel value={value} index={2} className={classes.tabPanel}>
-        {(imageArray.fruit.length != 0)?<ImageGrid images={imageArray.fruit}/>:<p>No pictures found.</p>}
-        </TabPanel>
-        <TabPanel value={value} index={3} className={classes.tabPanel}>
-          {(imageArray.habit.length != 0)?<ImageGrid images={imageArray.habit}/>:<p>No pictures found.</p>}
-        </TabPanel>
-        <TabPanel value={value} index={4} className={classes.tabPanel}>
-          {(imageArray.leaf.length != 0)?<ImageGrid images={imageArray.leaf}/>:<p>No pictures found.</p>}
-        </TabPanel>
-        <TabPanel value={value} index={5} className={classes.tabPanel}>
-          {(imageArray.other.length != 0)?<ImageGrid images={imageArray.other}/>:<p>No pictures found.</p>}
-        </TabPanel>
+        {tabPanels}
     </div>
     )
 }

@@ -8,7 +8,7 @@ const useStyles = makeStyles({
      display: 'flex',
      flexDirection: 'column',
      alignItems: 'flex-start',
-     margin: '0px 0px',
+     margin: '0px 0px 10px 0px',
      width: '100%'
     },
     headingContainer: {

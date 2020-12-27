@@ -19,10 +19,9 @@ const useStyles = makeStyles({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#efefef',
   },
   app: {
-    backgroundImage: 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)',
+    backgroundColor: '#FFF',
   }
 });
 
@@ -30,10 +29,10 @@ function App() {
   const classes = useStyles();
 
   return (
-    <div className="App">
+    <div className={classes.app}>
       <CssBaseline />
       <Navigation />
-      <Container maxWidth="xl" className={classes.container}>
+      <Container maxWidth="lg" className={classes.container}>
         <Router>
           <Route exact path='/'>
             <LandingPage/>
