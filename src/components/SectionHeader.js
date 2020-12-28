@@ -2,27 +2,15 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import PropTypes from 'prop-types'
 
-import Divider from '@material-ui/core/Divider';
+import {Divider, Grid} from '@material-ui/core/';
 const useStyles = makeStyles({
     root: {
-     display: 'flex',
-     flexDirection: 'column',
-     alignItems: 'flex-start',
-     margin: '0px 0px 10px 0px',
-     width: '100%'
-    },
-    headingContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        width: '100%'
+        margin: '0px 0px 10px 0px',
     },
     heading: {
         margin: '0px',
     },
     divider: {
-        width: '80%',
         marginLeft: '10px'
     },
     subtext: {
@@ -35,11 +23,10 @@ const SectionHeader = ({heading,subtext}) => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <div className={classes.headingContainer}>
-                <h2 className={classes.heading}>{heading}</h2>
-                <Divider className={classes.divider}/>
-            </div>
-           
+            <Grid container direction="row" justify="flex-start" alignItems="center" wrap="wrap">
+                <Grid item><h2 className={classes.heading}>{heading}</h2></Grid>
+                <Grid item s={6} md={9} l={9} xl={9}><Divider variant="fullWidth" className={classes.divider}/></Grid>
+            </Grid>
             {subtext && <p className={classes.subtext}>{subtext}</p>}
         </div>
     )
