@@ -7,8 +7,7 @@ export const useFetch = (url,initialValue) => {
   const [data, setData] = useState(initialValue);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  console.log(cache);
+  const [totalPages, setPageCount] = useState();
 
   useEffect(() => {
       (async () => {
@@ -20,6 +19,7 @@ export const useFetch = (url,initialValue) => {
             } else {
               console.log('no cache')
               const req = await trefle.get(url)
+              setPageCount((req.data.links.last).replace('/api/v1/species?page=',''));
               cache.current[url] = req.data.data;
               setData(req.data.data);
             }
@@ -31,6 +31,6 @@ export const useFetch = (url,initialValue) => {
       })();
   }, [url])
 
-  return {data, error, loading};
+  return {data, error, loading,totalPages};
 }
 
