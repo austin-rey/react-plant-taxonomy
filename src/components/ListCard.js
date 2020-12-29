@@ -40,11 +40,11 @@ const ListCard = ({title,subtext,imagePath,button}) => {
                 component="img"
                 alt={subtext}
                 height="240"
-                image={imagePath}
+                image={(imagePath)?imagePath:'/images/card-placeholder-305x240.png'}
                 title={title}
                 />
                 <CardContent className={classes.content}>
-                    <h2 className={classes.heading}>{title}</h2>
+                    <h5 className={classes.heading}>{(title)?title:subtext}</h5>
                     <p className={classes.subtext}>{subtext}</p>
                 </CardContent>
                 <CardActions className={classes.actions}>
@@ -61,5 +61,7 @@ ListCard.propTypes = {
     button: PropTypes.element,
     imagePath: PropTypes.string
 }
-
+ListCard.defaultProps = {
+    title: 'No common name',
+}
 export default ListCard
