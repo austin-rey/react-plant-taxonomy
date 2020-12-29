@@ -2,7 +2,7 @@ import React, {useState,useRef,useEffect } from 'react'
 
 import {useParams,Link} from "react-router-dom"
 
-import {useFetch} from '../hooks/useFetch'
+import {useFetchPlants} from '../hooks/useFetchPlants'
 
 import PropTypes from 'prop-types'
 
@@ -126,7 +126,7 @@ const SearchPage = () => {
 
     const [requestEndpoint, setRequestEndpoint] = useState(`/api/v1/species/?page=${page}`)
 
-    const { data, loading, error, totalPages } = useFetch(
+    const { data, loading, error} = useFetchPlants(
         requestEndpoint,
         [],
     );

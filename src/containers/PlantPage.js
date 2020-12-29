@@ -2,7 +2,7 @@ import React, {useEffect,useState} from 'react'
 
 import {useParams} from "react-router-dom"
 
-import {useFetch} from '../hooks/useFetch'
+import {useFetchPlant} from '../hooks/useFetchPlant'
 
 import PropTypes from 'prop-types'
 
@@ -68,11 +68,10 @@ const PlantPage = () => {
 
     let { id } = useParams();
 
-    const { data: plantData, loading, error } = useFetch(
+    const { data: plantData, loading, error } = useFetchPlant(
         `/api/v1/species/${id}`,
         []
     );
-
     console.log(plantData);
     return ((loading) 
             ? <h1>Loading</h1>
@@ -283,7 +282,6 @@ const PlantPage = () => {
                         <PlantTable headers={['Name','Last Updated','URL','Citation']} rows={plantData.sources} className={classes.swatch6} />
                     </Paper>
                     </section>
-             
             </div>
     )
 }
