@@ -16,7 +16,8 @@ const useStyles = makeStyles({
         margin: '100px 0px'
     },
     panelContainer: {
-        marginBottom: '60px'
+        padding: '0px !important',
+        marginBottom: '30px'
     },
     panel: {
         backgroundColor:'#E9EDC9',color:'#333',padding: '0px',height: '100%', borderRadius: '5px',marginBottom: '10px'
@@ -35,13 +36,18 @@ const useStyles = makeStyles({
     mb20: {
         marginBottom: '20px'
     },
+    buttonContainer: {
+        marginBottom: '60px'
+    },
     button: {
-        padding: '20px',
-        width: '200px'
+    padding: '0px'
     },
     buttonLink: {
+        padding: '20px 40px',
         color:'#fff',
-        textDecoration: 'none'
+        textDecoration: 'none',
+        width: '100%',
+        height: '100%'
     }
   });
 
@@ -90,18 +96,14 @@ const LandingPage = () => {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item>
-                            <Grid container direction="row" justify="space-between">
-                                <Grid item>
-                                    <p>Note: <i>Some entries of data are incomplete or are trivial in regard to taxonomy classification.</i></p>
-                                </Grid>
-                                <Grid item>
-                                    <Button variant="contained" size="large" color="primary" className={classes.button}>
-                                        <Link className={classes.buttonLink} to="/search/1">Lets get started</Link>
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </Grid>
+                        <p>Note: <i>Some entries of data are incomplete or are trivial in regard to taxonomy classification.</i></p>
+                    </Grid>
+                </Grid>
+                <Grid container direction="row" justify="flex-end">
+                    <Grid item className={classes.buttonContainer}>
+                        <Button variant="contained" size="large" color="primary" className={classes.button}>
+                            <Link className={classes.buttonLink} to="/search/1">Lets get started</Link>
+                        </Button>
                     </Grid>
                 </Grid>
             </Grid>
