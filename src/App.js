@@ -37,7 +37,7 @@ function App() {
           <Route exact path='/'>
             <LandingPage/>
           </Route>
-          <Route exact path='/search'>
+          <Route exact path='/search/:pageNumber'>
             <SearchPage/>
           </Route>
           <Route exact path='/plant/:id'>
