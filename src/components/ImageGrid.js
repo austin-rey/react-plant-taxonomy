@@ -18,10 +18,9 @@ const ImageGrid = ({images}) => {
       <Grid container justify="flex-start" direction="row" wrap="wrap" spacing={1}>
             {images.map((image, i) => (
                 <Grid key={i} item className={classes.imageContainer} xs={12} sm={6} lg={4}>
-                    <a href={image.image_url} target="_blank">
+                    
                     <img className={classes.image} src={image.image_url} alt={image.copyright} />
-                    </a>
-              
+                 
                 </Grid>
             ))}
         </Grid>

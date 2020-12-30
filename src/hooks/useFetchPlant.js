@@ -7,8 +7,9 @@ export const useFetchPlant = (url,initialValue) => {
   const [data, setData] = useState(initialValue);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
+  console.log(cache);
       (async () => {
           try {
             if (cache.current[url]) {

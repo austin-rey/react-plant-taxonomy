@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
-import {Grid,Paper} from '@material-ui/core';
-
 import { makeStyles } from '@material-ui/core/styles';
+
+import topoMap from '../json/topoMapLevel3.json';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,9 +15,6 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '5px'
     },
 }));
-
-const geoUrl =
-  "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 
 const Map = ({names}) => {
@@ -35,7 +32,7 @@ const Map = ({names}) => {
         }else if(names.extinct?.includes(geography.properties.name)) {
             return "#8AAE6F "
         }
-        return "#E3BF95";
+        // return "#E3BF95";
     }
 
     return (
@@ -44,8 +41,9 @@ const Map = ({names}) => {
             projectionConfig={{scale: 175, center: [18,0]}}
             width={800}
             height={600}
+            projection={'geoEqualEarth'}
         >
-           <Geographies geography={geoUrl}>
+           <Geographies geography={'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'}>
             {({ geographies, projection }) =>
                 geographies
                 .map((geo,i) => (

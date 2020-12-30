@@ -38,41 +38,25 @@ TabPanel.propTypes = {
   
 function a11yProps(index) {
   return {
-    id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
   };
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
     width: '100%',
   },
   tabContainer: {
-    boxShadow: 'none',
-    padding: '24px 24px'
-  },
-}));
-
-const StyledTabs = withStyles({
-  indicator: {
-    display: 'none',
-   
-  },
-})((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
-
-const StyledTab = withStyles((theme) => ({
-  root: {
-    textTransform: 'none',
-    color: '#fff !important',
     borderRadius: '5px',
-    background: '#707070',
-    marginRight: theme.spacing(1),
-    '&:focus': {
-      opacity: 1,
-    },
+    boxShadow: 'none',
+    border: '1px solid #efefef'
   },
-}))((props) => <Tab disableRipple {...props} />);
+  tabs: {
+    backgroundColor: '#efefef'
+  }
+}));
 
 const ImageGallery = ({imageArray}) => {
     const classes = useStyles();
@@ -83,12 +67,16 @@ const ImageGallery = ({imageArray}) => {
       setValue(newValue);
     };
 
+    const handleChangeIndex = (index) => {
+      setValue(index);
+    };
+
     let imageCategories = Object.entries(imageArray);
 
     // Not every plant will have images for each category so only create tabs for images found.
     let tabs = imageCategories.map((cat,i) => {
       if(cat[0] != '') {
-        return <StyledTab key={i} label={`${cat[0]}`} {...a11yProps(i)} />
+        return <Tab key={i} label={`${cat[0]}`} {...a11yProps(i)} />
       }
     });
     
@@ -100,19 +88,21 @@ const ImageGallery = ({imageArray}) => {
     return (
       <div className={classes.root}>
         <AppBar className={classes.tabContainer} position="static" color="transparent">
-          <StyledTabs
+          <Tabs
             value={value}
             onChange={handleChange}
-            indicatorColor="#fff"
+            indicatorColor="primary"
             textColor="#fff"
             variant="scrollable"
             scrollButtons="auto"
             aria-label="Tabs for image gallery"
+            className={classes.tabs}
           >
             {tabs}
-          </StyledTabs >
+          </Tabs >
+          {tabPanels}
         </AppBar>
-        {tabPanels}
+      
     </div>
     )
 }

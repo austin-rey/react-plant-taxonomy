@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react'
 
-import {useParams} from "react-router-dom"
+import {useParams,Link} from "react-router-dom"
 
 import {useFetchPlant} from '../hooks/useFetchPlant'
 
@@ -11,13 +11,17 @@ import ImageGallery from '../components/ImageGallery'
 import Map from '../components/Map'
 import PlantTable from '../components/Table'
 
-import {Paper,Grid } from '@material-ui/core/'
+import {Paper,Grid,Card,CardHeader,CardContent} from '@material-ui/core/'
 
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     section: {
-        width: '100%'
+        width: '100%',
+        marginBottom: '40px'
+    },
+    sectionPaper: {
+        padding: '10px'
     },
     listContainer: {
         display: 'flex',
@@ -25,28 +29,40 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around'
     },
-    distributionList: {
-        textAlign: 'left'
-    },
-    sectionPaper : {
-        margin: '50px 20px'
-    },
     alignLeft: {
         textAlign: 'left'
     },
-    swatch1:{backgroundColor:'#ED6A5A',color:'#fff',padding: '10px',height: '100%', borderRadius: '5px'},
-    swatch2:{backgroundColor:'#5D576B',color:'#fff',padding: '10px',height: '100%', borderRadius: '5px'},
-    swatch3:{backgroundColor:'#F58B51',color:'#fff',padding: '10px',height: '100%', borderRadius: '5px'},
-    swatch4:{backgroundColor:'#9BC1BC',color:'#fff',padding: '10px',height: '100%', borderRadius: '5px'},
-    swatch5:{backgroundColor:'#8AAE6F',color:'#fff',padding: '10px',height: '100%', borderRadius: '5px'},
+    distributionContainer: {
+        marginTop: '10px'
+    },
+    zoneList: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        paddingLeft: '10px',
+    },
+    zoneListItem: {
+        display: 'flex',
+        width: '25%'
+    },
+    distributionZone1:{backgroundColor:'#ED6A5A',color:'#fff'},
+    distributionZone2:{backgroundColor:'#5D576B',color:'#fff'},
+    distributionZone3:{backgroundColor:'#F58B51',color:'#fff'},
+    distributionZone4:{backgroundColor:'#9BC1BC',color:'#fff'},
+    distributionZone5:{backgroundColor:'#8AAE6F',color:'#fff'},
     swatch6: {
         backgroundColor:'#F9F7DB',color:'#333',padding: '10px',height: '100%', borderRadius: '5px',marginBottom: '5px'
     },
-    swatchContainer: {
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(1)
+    nameList: {
+        border: '1px solid #333'
     },
-    headingImageContainer: {
+    distributionCard :{
+        boxShadow: 'none',
+        border: '1px solid #efefef'
+    },
+    cardContent: {
+
     },
     headingImage: {
         display: 'block',
@@ -61,7 +77,11 @@ const useStyles = makeStyles((theme) => ({
     },
     w100: {
         width: '100%'
-    }
+    },
+    siteLink: {
+        padding: '25px 0px'
+    },
+
 }));
 const PlantPage = () => {
     const classes = useStyles();
@@ -75,20 +95,21 @@ const PlantPage = () => {
     console.log(plantData);
     return ((loading) 
             ? <h1>Loading</h1>
-            : <div>
-                
+            : <>
+              
                  <section id="section-plant-general-information" className={classes.section} >
-
-                    <Paper className={classes.sectionPaper} elevation={0}>
+                
+                    <Link className={classes.siteLink} to="/search/1">Back to Search</Link>
                     <h1>{plantData.common_name} - {plantData.scientific_name}</h1>
-                       
+                    <Paper className={classes.sectionPaper} elevation={0}>
+                    
                         <Grid container direction="row" justify="flex-start" wrap="wrap" alignItems="stretch" spacing={1}>
-                            <Grid item xs={12} sm={6} md={4} lg={3}>
+                            <Grid item xs={12} sm={6} md={4} lg={4}>
                                 <Grid container className={classes.headingImageContainer} >
                                     <img className={classes.headingImage} src={(plantData.image_url)?plantData.image_url:'/images/card-placeholder-305x240.png'} alt={`Image of a ${plantData.scientific_name}`}/>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={6} md={8} lg={9}>
+                            <Grid item xs={12} sm={6} md={8} lg={8}>
                                 <Grid container direction="column" justify="flex-start" alignItems="stretch">
                                     <Grid className={classes.swatch6}>
                                         <p><strong>Rank</strong> - {plantData.rank}</p>
@@ -114,93 +135,96 @@ const PlantPage = () => {
                  </section>
 
                 <section id="section-plant-distribution" className={classes.section} >
-
-                    <Paper className={classes.sectionPaper} elevation={0}>
-                    <SectionHeader  
+                <SectionHeader  
                         heading='Distribution'
-                        subtext='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. '
+                        subtext='The map below includes zones in which this species can be found. '
                     />
+                    <Paper className={classes.sectionPaper} elevation={0}>
+                   
                         <Map names={plantData.distribution}/>
-                        <Grid container direction="column" justify="center" alignItems="stretch" spacing={1} className={classes.swatchContainer}>
+                        <Grid container direction="column" justify="center" alignItems="stretch" spacing={1} className={classes.distributionContainer}>
                             <Grid item>
-                                <Grid className={classes.swatch1} container direction="row" justify="flex-start" alignItems="flex-start">
-                                <h3 className={classes.w100}>Native</h3>
-                                {(!plantData.distributions.native)?<p>No entries found.</p>:  plantData.distributions.native?.map((item,i ) => (
-                                    <Grid item>
-                                        <p key={i}>{item.name}</p>
-                                    </Grid>
-                                ))}
-                              
-                                </Grid>
-                            </Grid>
-                            <Grid item >
-                                <Grid className={classes.swatch2} container direction="row" justify="flex-start" alignItems="flex-start">
-                                <h3 className={classes.w100}>Introduced</h3>
-                                {(!plantData.distributions.introduced)?<p>No entries found.</p>:plantData.distributions.introduced?.map((item,i ) => (
-                                    <Grid item>
-                                       <p key={i}>{item.name}</p>
-                                    </Grid>
-                                ))}
-         
-                                </Grid>
-                            </Grid>
-                            <Grid item >
-                                <Grid className={classes.swatch3} container direction="row" justify="flex-start" alignItems="flex-start">
-                                <h3 className={classes.w100}>Doubtful</h3>
-                                {(!plantData.distributions.doubtful)?<p>No entries found.</p>:plantData.distributions.doubtful?.map((item,i ) => (
-                                    <Grid item>
-                                       <p key={i}>{item.name}</p>
-                                    </Grid>
-                                ))}
-
-                                </Grid>
+                                <Card className={classes.distributionCard}>
+                                    <CardHeader className={classes.distributionZone1} title="Native" subheader="Zones the species is native from."/>
+                                        <CardContent className={classes.cardContent}>
+                                            <ul className={classes.zoneList}>
+                                                {(!plantData.distributions.native)?<li className={classes.zoneListItem}>No entries found.</li>:plantData.distributions.native?.map((item,i ) => (
+                                                    <li className={classes.zoneListItem} key={i}>{item.name}</li>
+                                                ))}
+                                            </ul>
+                                        </CardContent>
+                                </Card>
+                            </Grid>     
+                            <Grid item>
+                                <Card className={classes.distributionCard}>
+                                    <CardHeader className={classes.distributionZone2} title="Introduced" subheader="Zones the species has been introduced."/>
+                                    <CardContent className={classes.cardContent}>
+                                            <ul className={classes.zoneList}>
+                                                {(!plantData.distributions.introduced)?<li className={classes.zoneListItem}>No entries found.</li>:plantData.distributions.introduced?.map((item,i ) => (
+                                                    <li className={classes.zoneListItem} key={i}>{item.name}</li>
+                                                ))}
+                                            </ul>
+                                    </CardContent>
+                                </Card>
                             </Grid>
                             <Grid item>
-                                <Grid className={classes.swatch4} container direction="row" justify="flex-start" alignItems="flex-start">
-                                <h3 className={classes.w100}>Absent</h3>
-                                    <Grid item>
-                                        <Grid container>
-                                        {(!plantData.distributions.absent)?<p>No entries found.</p>:plantData.distributions.absent?.map((item,i ) => (
-                                        <Grid item>
-                                            <p key={i}>{item.name}</p>
-                                        </Grid>
-                                    ))}
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
+                                <Card className={classes.distributionCard}>
+                                    <CardHeader className={classes.distributionZone3} title="Doubtful" subheader="Zones the species presence is doubtful."/>
+                                    <CardContent className={classes.cardContent}>
+                                            <ul className={classes.zoneList}>
+                                                {(!plantData.distributions.doubtful)?<li className={classes.zoneListItem}>No entries found.</li>:plantData.distributions.doubtful?.map((item,i ) => (
+                                                    <li className={classes.zoneListItem} key={i}>{item.name}</li>
+                                                ))}
+                                            </ul>
+                                    </CardContent>
+                                </Card>
                             </Grid>
                             <Grid item>
-                                <Grid className={classes.swatch5} container direction="column" justify="flex-start" alignItems="flex-start">
-                                <h3>Extinct</h3>
-                                {(!plantData.distributions.extinct)?<p>No entries found.</p>:plantData.distributions.extinct?.map((item,i ) => (
-                                    <Grid item>
-                                        <p key={i}>{item.name}</p>
-                                    </Grid>
-                                ))}
-
-                                </Grid>
+                                <Card className={classes.distributionCard}>
+                                    <CardHeader className={classes.distributionZone4} title="Absent" subheader="Zones the species is absent and has been wrongly recorded."/>
+                                    <CardContent className={classes.cardContent}>
+                                        <ul className={classes.zoneList}>
+                                            {(!plantData.distributions.absent)?<li className={classes.zoneListItem}>No entries found.</li>:plantData.distributions.absent?.map((item,i ) => (
+                                                <li className={classes.zoneListItem} key={i}>{item.name}</li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                            <Grid item>
+                                <Card className={classes.distributionCard}>
+                                    <CardHeader className={classes.distributionZone5} title="Extinct" subheader="Zones the species is extinct."/>
+                                    <CardContent className={classes.cardContent}>
+                                        <ul className={classes.zoneList}>
+                                            {(!plantData.distributions.extinct)?<li className={classes.zoneListItem}>No entries found.</li>:plantData.distributions.extinct?.map((item,i ) => (
+                                                <li className={classes.zoneListItem} key={i}>{item.name}</li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
                             </Grid>
                         </Grid>
                      </Paper>
                 </section>
 
                 <section id="section-photo-gallery" className={classes.section} >
-                  
-                     <Paper className={classes.sectionPaper} elevation={0}>
-                     <SectionHeader  
+                <SectionHeader  
                         heading='Photo Gallery'
                         subtext='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
                     />
+                     <Paper className={classes.sectionPaper} elevation={0}>
+
                         <ImageGallery imageArray={plantData.images}/>
                      </Paper>
                     
                 </section>
                 <section id="section-qualities" className={classes.section} >
-                    <Paper className={classes.sectionPaper} elevation={0}>
-                    <SectionHeader  
+                <SectionHeader  
                         heading='Qualities'
                         subtext='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
                     />
+                    <Paper className={classes.sectionPaper} elevation={0}>
+                  
                         <Grid container direction="row" justify="center" alignItems="stretch" spacing={2}>
                             <Grid item xs={6} md={3} lg={3}>
                                 <Grid className={classes.swatch6} container direction="column" justify="flex-start" alignItems="flex-start">
@@ -274,15 +298,15 @@ const PlantPage = () => {
                      </Paper>
               </section>
               <section id="section-sources" className={classes.section} >
-                    <Paper className={classes.sectionPaper} elevation={0}>
-                    <SectionHeader  
+              <SectionHeader  
                         heading='Sources'
                         subtext='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
                     />
+                    <Paper className={classes.sectionPaper} elevation={0}>
                         <PlantTable headers={['Name','Last Updated','URL','Citation']} rows={plantData.sources} className={classes.swatch6} />
                     </Paper>
                     </section>
-            </div>
+            </>
     )
 }
 
