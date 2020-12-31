@@ -61,9 +61,7 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: 'none',
         border: '1px solid #efefef'
     },
-    cardContent: {
-
-    },
+    cardContent: {},
     headingImage: {
         display: 'block',
         borderRadius: '5px',
@@ -81,6 +79,23 @@ const useStyles = makeStyles((theme) => ({
     siteLink: {
         padding: '25px 0px'
     },
+    qualityCard: {
+        border: '1px solid #efefef',
+        borderRadius: '5px',
+        width: '100%',
+        height: '100%'
+    },
+    qualitiesHeader: {
+        textAlign: 'center',
+        width: '100%',
+        borderBottom: '1px solid #efefef',
+        marginBottom: '10px',
+        padding: '10px',
+        backgroundColor: '#f7f7f7'
+    },
+    qualitiesBody: {
+        width: '85%'
+    },
 
 }));
 const PlantPage = () => {
@@ -96,9 +111,7 @@ const PlantPage = () => {
     return ((loading) 
             ? <h1>Loading</h1>
             : <>
-              
                  <section id="section-plant-general-information" className={classes.section} >
-                
                     <Link className={classes.siteLink} to="/search/1">Back to Search</Link>
                     <h1>{plantData.common_name} - {plantData.scientific_name}</h1>
                     <Paper className={classes.sectionPaper} elevation={0}>
@@ -209,7 +222,7 @@ const PlantPage = () => {
 
                 <section id="section-photo-gallery" className={classes.section} >
                 <SectionHeader  
-                        heading='Photo Gallery'
+                        heading='Pictures'
                         subtext='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
                     />
                      <Paper className={classes.sectionPaper} elevation={0}>
@@ -225,87 +238,345 @@ const PlantPage = () => {
                     />
                     <Paper className={classes.sectionPaper} elevation={0}>
                   
-                        <Grid container direction="row" justify="center" alignItems="stretch" spacing={2}>
-                            <Grid item xs={6} md={3} lg={3}>
-                                <Grid className={classes.swatch6} container direction="column" justify="flex-start" alignItems="flex-start">
-                                    <h3>Flowers</h3>
-                                    <p>Color: {(plantData.flower.color)?plantData.flower.color:'No record found.'}</p>
-                                    <p>Conspicuous: {(plantData.flower.conspicuous)?plantData.flower.conspicuous:'No record found.'}</p>
-                                    
+                        <Grid container direction="row" justify="center" alignItems="stretch" spacing={4}>
+                            <Grid item xs={12} sm={12} md={4} lg={4}>
+                                <Grid className={classes.qualityCard} container direction="column" justify="flex-start" alignItems="center">
+                                    <Grid item className={classes.qualitiesHeader}>
+                                        <img src="/images/icons/flower.png" alt=""/>
+                                        <h4>Flowers</h4>
+                                    </Grid>
+                                    <Grid item className={classes.qualitiesBody}>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Color</p>
+                                            <p>{(plantData.flower.color)
+                                                    ?plantData.flower.color.map((color)=><span>{color}</span>)
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Conspicuous</p>
+                                            <p>{(plantData.flower.conspicuous!=null)
+                                                    ?plantData.flower.conspicuous.toString()
+                                                    :'No record found'}
+                                            </p>    
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={6} md={3} lg={3}>
-                                <Grid className={classes.swatch6} container direction="column" justify="flex-start" alignItems="flex-start">
-                                    <h3>Foliage</h3>
-                                        <p>Texture: {(plantData.foliage.texture)?plantData.foliage.texture:'No record found.'}</p>
-                                        <p>Color: {(plantData.foliage.color)?plantData.foliage.color:'No record found.'}</p>
-                                        <p>Leaf Retention: {(plantData.foliage.leaf_retention)?plantData.foliage.leaf_retention:'No record found.'}</p>
+                            <Grid item xs={12} sm={12} md={4} lg={4}>
+                                <Grid className={classes.qualityCard} container direction="column" justify="flex-start" alignItems="center">
+                                    <Grid item className={classes.qualitiesHeader}>
+                                        <img src="/images/icons/foliage.png" alt=""/>
+                                        <h4>Foliage</h4>
+                                    </Grid>
+                                    <Grid item className={classes.qualitiesBody}>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Texture</p>
+                                            <p>{(plantData.foliage.texture)
+                                                    ?plantData.foliage.texture
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Color</p> 
+                                            <p>{(plantData.foliage.color)?
+                                                    plantData.foliage.color.map((color)=><span>{color}</span>)
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Leaf Retention: </p>
+                                            <p>{(plantData.foliage.leaf_retention!=null)
+                                                    ?plantData.foliage.leaf_retention.toString()
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={6} md={3} lg={3}>
-                                <Grid className={classes.swatch6} container direction="column" justify="flex-start" alignItems="flex-start">
-                                    <h3>Fruits/Seeds</h3>
-                                    <p>Conspicuous: {(plantData.fruit_or_seed.conspicuous)?plantData.fruit_or_seed.conspicuous:'No record found.'}</p>
-                                    <p>Color: {(plantData.fruit_or_seed.color)?plantData.fruit_or_seed.color:'No record found.'}</p>
-                                    <p>Shape: {(plantData.fruit_or_seed.shape)?plantData.fruit_or_seed.shape:'No record found.'}</p>
-                                    <p>Seed Persistence: {(plantData.fruit_or_seed.seed_persistence)?plantData.fruit_or_seed.seed_persistence:'No record found.'}</p>
-                                </Grid>
-                            </Grid>
-                            {/* <Grid item xs={6} md={3} lg={3}>
-                                <Grid className={classes.swatch6} container direction="column" justify="flex-start" alignItems="flex-start">
-                                    <h3>Specifications</h3>
+                            <Grid item xs={12} sm={12} md={4} lg={4}>
+                                <Grid className={classes.qualityCard} container direction="column" justify="flex-start" alignItems="center">
+                                    <Grid item className={classes.qualitiesHeader}>
+                                        <img src="/images/icons/fruit-seed.png" alt=""/>
+                                        <h4>Fruits/Seeds</h4>
+                                    </Grid>
+                                    <Grid item className={classes.qualitiesBody}>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Conspicuous</p>
+                                            <p>{(plantData.fruit_or_seed.conspicuous!=null)
+                                                    ?plantData.fruit_or_seed.conspicuous.toString()
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Color</p>
+                                            <p>{(plantData.fruit_or_seed.color)
+                                                    ?plantData.fruit_or_seed.color.map((color)=><span>{color}</span>)
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Shape</p>
+                                            <p>{(plantData.fruit_or_seed.shape)
+                                                    ?plantData.fruit_or_seed.shape
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Seed Persistence</p>
+                                            <p>{(plantData.fruit_or_seed.seed_persistence!=null)
+                                                    ?plantData.fruit_or_seed.seed_persistence.toString()
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                    </Grid>
 
-                                    <p>Ligneous Type: {(plantData.specifications.ligneous_type)?plantData.specifications.ligneous_type:'No record found.'}</p>
-                                    <p>Growth Form: {(plantData.specifications.growth_form)?plantData.specifications.growth_form:'No record found.'}</p>
-                                    <p>Growth Habit: {(plantData.specifications.growth_habit)?plantData.specifications.growth_habit:'No record found.'}</p>
-                                    <p>Growth Rate: {(plantData.specifications.growth_rate)?plantData.specifications.growth_rate:'No record found.'}</p>
-                                    <p>Average Height: {(plantData.specifications.average_height?.cm)?plantData.average_height.cm+"cm":'No record found.'}</p>
-                                    <p>Maximum Height: {(plantData.specifications.maximum_height.cm)?plantData.specifications.maximum_height.cm:'No record found.'}</p>
-                                    <p>Nitrogen Fixation: {(plantData.specifications.nitrogen_fixation)?plantData.specifications.nitrogen_fixation:'No record found.'}</p>
-                                    <p>Shape and Orientation: {(plantData.specifications.shape_and_orientation)?plantData.specifications.shape_and_orientation:'No record found.'}</p>
-                                    <p>Toxicity: {(plantData.specifications.toxicity)?plantData.specifications.toxicity:'No record found.'}</p>
                                 </Grid>
-                            </Grid> */}
-                            {/* <Grid item xs={6} md={3} lg={3}>
-                                <Grid className={classes.swatch6} container direction="column" justify="flex-start" alignItems="flex-start">
-                                    <h3>Growth</h3>
-
-                                    <p>Description: {(plantData.growth.description)?plantData.growth.description:'No record found.'}</p>
-                                    <p>Sowing: {(plantData.growth.sowing)?plantData.growth.sowing:'No record found.'}</p>
-                                    <p>Days to Harvest: {(plantData.growth.days_to_harvest)?plantData.growth.days_to_harvest:'No record found.'}</p>
-                                    <p>Row Spacing: {(plantData.growth.row_spacing.cm)?plantData.growth.row_spacing.cm+"cm":'No record found.'}</p>
-                                    <p>Spread: {(plantData.growth.spread.cm)?plantData.growth.spread.cm+"cm":'No record found.'}</p>
-                                    <p>PH Maximum: {(plantData.growth.ph_maximum)?plantData.growth.ph_maximum:'No record found.'}</p>
-                                    <p>PH Minimum: {(plantData.growth.ph_minimum)?plantData.growth.ph_minimum:'No record found.'}</p>
-                                    <p>Light: {(plantData.growth.light)?plantData.growth.light:'No record found.'}</p>
-                                    <p>Atmospheric Humidity: {(plantData.growth.atmospheric_humidity)?plantData.growth.atmospheric_humidity:'No record found.'}</p>
-                                    <p>Growth Months: {(plantData.growth.growth_months)?plantData.growth.growth_months:'No record found.'}</p>
-                                    <p>Bloom Months: {(plantData.growth.bloom_months)?plantData.growth.bloom_months:'No record found.'}</p>
-                                    <p>Fruit Months: {(plantData.growth.fruit_months)?plantData.growth.fruit_months:'No record found.'}</p>
-                                    <p>Minimum Precipitation: {(plantData.growth.minimum_precipitation.mm)?plantData.growth.minimum_precipitation.mm+"mm":'No record found.'}</p>
-                                    <p>Maximum Precipitation: {(plantData.growth.maximum_precipitation.mm)?plantData.growth.maximum_precipitation.mm+"mm":'No record found.'}</p>
-                                    <p>Minimum Root Depth: {(plantData.growth.minimum_root_depth.cm)?plantData.growth.minimum_root_depth.cm+"cm":'No record found.'}</p>
-                                    <p>Minimum Temperature: {(plantData.growth.minimum_temperature.def_f)?plantData.growth.minimum_temperature.def_f+"f":'No record found.'}</p>
-                                    <p>Maximum Temperature: {(plantData.growth.maximum_temperature.def_f)?plantData.growth.maximum_temperature.def_f+"f":'No record found.'}</p>
-                                    <p>Soil Nutriments: {(plantData.growth.soil_nutriments)?plantData.growth.soil_nutriments:'No record found.'}</p>
-                                    <p>Soil Salinity: {(plantData.growth.soil_salinity)?plantData.growth.soil_salinity:'No record found.'}</p>
-                                    <p>Soil Texture: {(plantData.growth.soil_texture)?plantData.growth.soil_texture:'No record found.'}</p>
-                                    <p>Soil Humidity: {(plantData.growth.soil_humidity)?plantData.growth.soil_humidity:'No record found.'}</p>
-                                    
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6}>
+                                <Grid className={classes.qualityCard} container direction="column" justify="flex-start" alignItems="center">
+                                    <Grid item className={classes.qualitiesHeader}>
+                                        <h4>Characteristics</h4>
+                                        <h5>Attributes that distinguish this species from others</h5>
+                                    </Grid>
+                                    <Grid item className={classes.qualitiesBody}>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Ligneous Type</p>
+                                            <p className={classes.alignLeft}>{(plantData.specifications.ligneous_type)
+                                                    ?plantData.specifications.ligneous_type
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Growth Form</p>
+                                            <p>{(plantData.specifications.growth_form)
+                                                    ?plantData.specifications.growth_form
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Growth Habit</p>
+                                            <p>{(plantData.specifications.growth_habit)
+                                                    ?plantData.specifications.growth_habit
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Growth Rate</p>
+                                            <p>{(plantData.specifications.growth_rate)
+                                                    ?plantData.specifications.growth_rate
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Average Height</p>
+                                            <p>{(plantData.specifications.average_height?.cm)
+                                                    ?plantData.specifications.average_height.cm+" cm"
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Maximum Height</p>
+                                            <p>{(plantData.specifications.maximum_height.cm)
+                                                    ?plantData.specifications.maximum_height.cm+" cm"
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Nitrogen Fixation</p>
+                                            <p>{(plantData.specifications.nitrogen_fixation)
+                                                    ?plantData.specifications.nitrogen_fixation
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Shape and Orientation</p>
+                                            <p>{(plantData.specifications.shape_and_orientation)
+                                                    ?plantData.specifications.shape_and_orientation
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Toxicity</p>
+                                            <p>{(plantData.specifications.toxicity)
+                                                    ?plantData.specifications.toxicity
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
-                            </Grid> */}
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6}>
+                                <Grid className={classes.qualityCard} container direction="column" justify="flex-start" alignItems="center">
+                                    <Grid item className={classes.qualitiesHeader}>
+                                        <h4>Growth</h4>
+                                        <h5>Information related to farming this species</h5>
+                                    </Grid>
+                                    <Grid item className={classes.qualitiesBody}>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Description</p>
+                                            <p>{(plantData.growth.description)
+                                                    ?plantData.growth.description
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Sowing</p>
+                                            <p>{(plantData.growth.sowing)
+                                                    ?plantData.growth.sowing
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Days to Harvest</p>
+                                            <p>{(plantData.growth.days_to_harvest)
+                                                    ?plantData.growth.days_to_harvest+" Days"
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Row Spacing</p>
+                                            <p>{(plantData.growth.row_spacing.cm)
+                                                    ?plantData.growth.row_spacing.cm+" cm"
+                                                    +"cm":'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Spread</p>
+                                            <p>{(plantData.growth.spread.cm)
+                                                    ?plantData.growth.spread.cm+" cm"
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>PH Maximum</p>
+                                            <p>{(plantData.growth.ph_maximum)
+                                                    ?plantData.growth.ph_maximum+' pH'
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>PH Minimum</p>
+                                            <p>{(plantData.growth.ph_minimum)
+                                                    ?plantData.growth.ph_minimum+' pH'
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Light</p>
+                                            <p>{(plantData.growth.light)
+                                                    ?plantData.growth.light+' lux'
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Atmospheric Humidity</p>
+                                            <p>{(plantData.growth.atmospheric_humidity)
+                                                    ?plantData.growth.atmospheric_humidity+'%'
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Growth Months</p>
+                                            <p>{(plantData.growth.growth_months)
+                                                    ?plantData.growth.growth_months.map((month)=> <span>{month}</span>)
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Bloom Months</p>
+                                            <p>{(plantData.growth.bloom_months)
+                                                    ?plantData.growth.bloom_months.map((month)=> <span>{month}</span>)
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Fruit Months</p>
+                                            <p>{(plantData.growth.fruit_months)
+                                                    ?plantData.growth.fruit_months.map((month)=> <span>{month}</span>)
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Minimum Precipitation</p>
+                                            <p>{(plantData.growth.minimum_precipitation.mm)
+                                                    ?plantData.growth.minimum_precipitation.mm+" mm"
+                                                    :'No record found'}
+                                            </p>   
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Maximum Precipitation</p>
+                                            <p>{(plantData.growth.maximum_precipitation.mm)
+                                                    ?plantData.growth.maximum_precipitation.mm+" mm"
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Minimum Root Depth</p>
+                                            <p>{(plantData.growth.minimum_root_depth.cm)
+                                                    ?plantData.growth.minimum_root_depth.cm+" cm"
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Minimum Temperature</p>
+                                            <p>{(plantData.growth.minimum_temperature.deg_f)
+                                                    ?plantData.growth.minimum_temperature.deg_f+" F"
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Maximum Temperature</p>
+                                            <p>{(plantData.growth.maximum_temperature.deg_f)
+                                                    ?plantData.growth.maximum_temperature.deg_f+" F"
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Soil Nutriments<br/>0 (oligotrophic) to 10 (hypereutrophic)</p>
+                                            <p>{(plantData.growth.soil_nutriments)
+                                                    ?plantData.growth.soil_nutriments
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Soil Salinity<br/>0 (untolerant) to 10 (hyperhaline)</p>
+                                            <p>{(plantData.growth.soil_salinity)
+                                                    ?plantData.growth.soil_salinity
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Soil Texture<br/>0 (clay) to 10 (rock)</p>
+                                            <p>{(plantData.growth.soil_texture)
+                                                    ?plantData.growth.soil_texture
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                        <Grid container direction="row" justify="space-between">
+                                            <p>Soil Humidity<br/>0 (xerophile) to 10 (subaquatic)</p>
+                                            <p>{(plantData.growth.soil_humidity)
+                                                    ?plantData.growth.soil_humidity
+                                                    :'No record found'}
+                                            </p>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </Grid>
                      </Paper>
               </section>
               <section id="section-sources" className={classes.section} >
               <SectionHeader  
-                        heading='Sources'
-                        subtext='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-                    />
-                    <Paper className={classes.sectionPaper} elevation={0}>
-                        <PlantTable headers={['Name','Last Updated','URL','Citation']} rows={plantData.sources} className={classes.swatch6} />
-                    </Paper>
-                    </section>
+                    heading='Sources'
+                    subtext='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                />
+                <Paper className={classes.sectionPaper} elevation={0}>
+                    <PlantTable headers={['Name','Last Updated','URL','Citation']} rows={plantData.sources} className={classes.swatch6} />
+                </Paper>
+                </section>
+                <a href="#">Back to the Top</a>
+
             </>
     )
 }
